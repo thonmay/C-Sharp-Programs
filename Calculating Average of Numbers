@@ -1,0 +1,43 @@
+using System.Globalization;
+
+namespace AverageOfNumbers
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.Write("Enter N: ");
+            int n = int.Parse(Console.ReadLine());
+
+            Console.Write("Enter the numbers: ");
+
+            string input = Console.ReadLine();
+            string[] strNums = input.Split(" ");
+
+            int[] nums = new int[n];
+
+            for (int i = 0; i < n; i++) 
+            {
+                nums[i] = int.Parse(strNums[i]);
+            }
+
+            int sum = 0;
+            
+            for (int i = 0;i < n; i++) 
+            {
+                sum += nums[i];
+            }
+
+            float avg = (float) sum / n;
+
+            Console.WriteLine($"The average of the given numbers is: {avg}");
+
+
+
+            
+
+
+
+        }
+    }
+}
