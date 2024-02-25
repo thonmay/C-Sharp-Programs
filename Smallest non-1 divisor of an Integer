@@ -1,0 +1,31 @@
+namespace Lecture2Practice
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            //declare variables
+            int n, d;
+
+            // taking input 
+            Console.Write("N: ");
+            n = int.Parse(Console.ReadLine());
+
+
+            //using a While loop, starting from 2 till n, in worst case scenario
+            int i = 2;
+
+            while( n % i != 0 ) // when it's not divisible by i
+            {
+                i = i + 1;      // increment i
+            }
+
+            //assigning output
+            d = i;
+            
+
+            Console.WriteLine("The non-1 smallest divisor is {0}", d);
+
+        }
+    }
+}
