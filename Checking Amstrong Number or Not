@@ -1,0 +1,33 @@
+namespace AmstrongNumber
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.Write("Enter Number: ");
+            string s = (Console.ReadLine());
+            
+            int n = int.Parse(s);
+
+            int totalDigit = s.Length;
+            int sum = 0;
+
+            while( n != 0)
+            {
+                int lastDigit = n % 10;
+                sum += Convert.ToInt32(Math.Pow(lastDigit , totalDigit)); 
+                n /= 10;
+            }
+
+            if (sum == int.Parse(s))
+            {
+                Console.WriteLine($"{s} is an amstrong number");
+            }
+            else
+                Console.WriteLine($"{s} is NOT an amstrong number");
+
+
+
+        }
+    }
+}
