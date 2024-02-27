@@ -1,0 +1,29 @@
+namespace ThirdLabPractice
+{
+    internal class Program
+    {
+
+        static int fact(int x)
+        {
+            if ( x == 0) 
+            {
+                return 1;
+            }
+            else
+                return x * fact (x - 1);
+        }
+
+
+        static void Main(string[] args)
+        {
+            Console.Write("Enter the number: ");
+            int n = int.Parse(Console.ReadLine());
+
+            int rst = 0;
+
+            rst = fact(n);
+
+            Console.WriteLine(rst);
+        }
+    }
+}
