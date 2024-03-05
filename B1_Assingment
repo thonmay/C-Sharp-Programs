@@ -1,0 +1,41 @@
+namespace B1_Assingment
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            //taking input for Days
+            Console.Write("Number of Days: ");
+            int days = int.Parse(Console.ReadLine());
+
+            //Declaring array to store the rainfall numbers for each day
+            int[] x = new int[days];
+
+            //taking input of rainfall amount for each day
+            for(int i = 0; i < days; i++)
+            {
+                x[i] = int.Parse(Console.ReadLine());
+            }
+
+            //assuming first element's index has the highest value
+            int maxRainIndex = 0;
+
+            //iterating through each element of the array
+            for(int i = 1; i < days; i++)
+            {
+                //checking and updating maxRainIndex if it meets the condition
+                if(x[i] > x[maxRainIndex])
+                    maxRainIndex = i;
+            }
+
+            //printing the the day when it rained the most
+            Console.WriteLine("Answer: " + (maxRainIndex + 1));
+
+
+
+
+
+
+        }
+    }
+}
