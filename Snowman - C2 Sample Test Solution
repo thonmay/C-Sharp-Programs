@@ -1,0 +1,151 @@
+using System.Data;
+
+namespace SnowManC2_Take2
+{
+    internal class Program
+    {
+        public struct Data
+        {
+            public int snowman;
+            public string name;
+            public bool status;
+            public int[] tallness;
+        };
+
+ 
+
+        static void Main(string[] args)
+        {
+            string X = Console.ReadLine();
+            int participants = Convert.ToInt32(X.Split(";")[0]);
+            int height = Convert.ToInt32(X.Split(";")[1]);
+
+            //Reading the Lines
+            Data[] data = new Data[participants];
+
+            for(int i = 0; i < participants; i++)
+            {
+                string x = Console.ReadLine();
+                data[i].snowman = Convert.ToInt32(x.Split(";")[0]);
+                data[i].name = x.Split(";")[1];
+                data[i].status = Convert.ToBoolean(x.Split(";")[2]);
+
+                data[i].tallness = new int[data[i].snowman];
+                for(int j=0; j < data[i].snowman; j++)
+                {
+                    data[i].tallness[j] = Convert.ToInt32(x.Split(";")[j + 3]);
+                }
+            }
+
+            //Task 1
+            Console.WriteLine(task1(data));
+            //Task 2 
+            Console.WriteLine(task2(data));
+
+            //Task 3
+            List<string> RstNames = new List<string>();
+            List<int> RstList = new List<int>();
+
+            for(int i =0; i < data.Length; i++) 
+            {
+                if (data[i].snowman >= 3 && data[i].status == true)
+                {
+                    RstNames.Add(data[i].name);
+                    int Rsttallest = data[i].tallness[0];
+                    for (int j = 0; j < data[i].snowman; ++j)
+                    {
+                        if (data[i].tallness[j] > Rsttallest)
+                        {
+                            Rsttallest = data[i].tallness[j];
+                        }
+                    }
+                    RstList.Add(Rsttallest);
+                }
+            }
+            //Printing Task 3
+            for(int i=0; i < RstNames.Count; i++)
+            {
+                if(i == RstNames.Count - 1)
+                {
+                    Console.Write(RstNames[i] + "-" + RstList[i]);
+                }
+                else
+                {
+                    Console.Write(RstNames[i] + "-" + RstList[i] + ",");
+                }
+                
+            }
+
+            //Task 4
+            List<string> task4List = new List<string>();
+
+            for(int i=0; i < data.Length; i++)
+            {
+                if (data[i].name[0] == 'J')
+                {
+                    for(int j=0; j < data[i].snowman; j++)
+                    {
+                        if (data[i].tallness[j] > height)
+                        {
+                            task4List.Add(data[i].name);
+                            break;
+                        }
+                    }
+                }
+            }
+            //Printing Task 4
+            Console.WriteLine("\n");
+            for(int i=0; i < task4List.Count; i++)
+            {
+                if(i == task4List.Count - 1)
+                    Console.Write(task4List[i]);
+                else
+                {
+                    Console.Write(task4List[i] + ",");
+                }
+            }
+
+
+
+        }
+
+        public static string task1(Data[] data)
+        {
+            int maxInd = 0;
+            //string rst = "";
+
+            for(int i=0; i < data.Length; i++)
+            {
+                for(int j=0; j < data[i].tallness.Length;j++)
+                {
+                    if (data[i].tallness[j] > data[maxInd].tallness[0])
+                    {
+                        maxInd = i;
+                        //rst = data[i].name;
+                    }
+                }
+            }
+            return data[maxInd].name;
+
+        }
+
+        public static int task2(Data[] data)
+        {
+            int cnt = 0;
+            
+            for(int i=0; i <data.Length; i++)
+            {
+                bool isTrue = false;
+                for(int j=0; j < data[i].tallness.Length; j++)
+                {
+                    if (data[i].tallness[j] >= 150 && data[i].tallness[j] <=210)
+                    { isTrue = true; break; }
+                }
+                if(isTrue) cnt++;
+            }
+            return cnt;
+
+        }
+
+    }
+}
