@@ -1,0 +1,150 @@
+namespace Elves_C2_Sample
+{
+    public struct Data
+    {
+        public int numRucksacks;
+        public int[] NumGifts;
+    }
+
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            string x = Console.ReadLine();
+            int N = Convert.ToInt32(x.Split(" ")[0]);
+            int K = Convert.ToInt32(x.Split(" ")[1]);
+
+            Data[] datas = new Data[N];
+            //Reading input
+            for(int i=0; i<N; i++) 
+            {
+                string input = Console.ReadLine();
+                datas[i].numRucksacks = Convert.ToInt32(input.Split(" ")[0]);
+
+                datas[i].NumGifts = new int[datas[i].numRucksacks];
+                for(int j=0; j < datas[i].numRucksacks; ++j)
+                {
+                    datas[i].NumGifts[j] = Convert.ToInt32(input.Split(" ")[j + 1]);
+                }
+            }
+
+            //Task 1
+            Console.WriteLine(task1(datas));
+
+            //Task 2
+            Console.WriteLine(Task2(datas));
+
+            //Task 3
+            
+            int cnt = 0;
+            int[] sums = sumsLines(datas);
+            int[] task3 = new int[N];
+            //Getting the Cnt
+            for (int a = 0; a < sums.Length; ++a)
+            {
+                if (sums[a] > K)
+                {
+                    cnt++;
+                    task3[cnt] = a + 1;
+                }
+            }
+
+            //Printing Task 3
+            Console.Write(cnt + " ");
+            for(int i=0; i<N; i++)
+            {
+                if (task3[i] != 0)
+                    Console.Write(task3[i] + " ");    
+            }
+         
+            //Task 4
+            int[] minsArr = mins(datas);
+            Console.WriteLine("\n" + task4(datas, sums, minsArr));
+
+            
+        }
+
+        public static int task1(Data[] datas)
+        {
+            int cnt = 0;
+
+            for(int i=0; i < datas.Length; ++i)
+            {
+                for(int j=0; j < datas[i].NumGifts.Length; ++j)
+                {
+                    if (datas[i].NumGifts[j] == 10)
+                    { cnt++; }
+                }
+            }
+            return cnt;
+        }
+
+      
+        public static int Task2(Data[] datas)
+        {
+            int[] sums = new int[datas.Length];
+            for(int i=0;i < datas.Length; i++)
+            {
+                int sum = 0;
+                for(int j=0;j < datas[i].NumGifts.Length;++j)
+                {
+                    sum += datas[i].NumGifts[j];
+                }
+                sums[i] = sum;
+            }
+            int maxInd = 0;
+            for(int k=1; k<sums.Length; k++)
+            {
+                if (sums[k] > sums[maxInd])
+                { maxInd = k; }
+            }
+            return maxInd+1;
+        }
+
+        public static int[] sumsLines(Data[] datas)
+        {
+            int[] sums = new int[datas.Length];
+            for (int i = 0; i < datas.Length; i++)
+            {
+                int sum = 0;
+                for (int j = 0; j < datas[i].NumGifts.Length; ++j)
+                {
+                    sum += datas[i].NumGifts[j];
+                }
+                sums[i] = sum;
+            }
+            return sums;
+        }
+
+        public static string task4(Data[] datas, int[] sums, int[] minArr) 
+        {
+
+            if (sums[0] < minArr[1] || sums[0] < minArr[2])
+                return "YES";
+            else if (sums[1] < minArr[0] || sums[1] < minArr[2])
+                return "YES";
+            else if (sums[2] < minArr[1] || sums[0] < minArr[0])
+                return "YES";
+            else return "NO";
+        }
+
+        public static int[] mins(Data[] datas)
+        {
+            int[] mins = new int[datas.Length];
+
+            for(int i=0; i<datas.Length; i++)
+            {
+                int min = datas[i].NumGifts[0];
+                for(int j=1; j < datas[i].NumGifts.Length; ++j)
+                {
+                    if (datas[i].NumGifts[j] < min)
+                        min = datas[i].NumGifts[j];
+                }
+                mins[i] = min;
+            }
+            return mins;
+        }
+
+
+    }
+}
