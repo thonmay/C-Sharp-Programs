@@ -1,0 +1,192 @@
+namespace Snowman_C2_Try2
+{
+
+
+
+    internal class Program
+    {
+
+        public struct Data
+        {
+            public int snowmanNum;
+            public string name;
+            public bool status;
+            public int[] tallnessArr;
+        };
+
+        static void Main(string[] args)
+        {
+
+            /* < Thonmay Md Thoriqul Islam>, < ffr8a9 >
+            This solution was prepared and submitted by the student stated above for the
+            assignment of the Programming course.I declare that this solution is my own
+            work.I have not copied or used third party solutions.I have not passed my solution to my classmates, neither made it public.
+            Students’ regulation of Eötvös Loránd University(ELTE Regulations Vol.II.
+            74/C.§) states that as long as a student presents another student’s work - or
+            at least the significant part of it - as his/her own performance, it will count
+            as a disciplinary fault.The most serious consequence of a disciplinary fault
+            can be dismissal of the student from the University. */
+
+            string x = Console.ReadLine();
+            int participantsNum = Convert.ToInt32(x.Split(";")[0]);
+            int height = Convert.ToInt32(x.Split(";")[1]);
+
+            Data[] datas = new Data[participantsNum];
+            //Input Reading
+            for (int i = 0; i < participantsNum; i++)
+            {
+                string line = Console.ReadLine();
+                datas[i].snowmanNum = Convert.ToInt32(line.Split(";")[0]);
+                datas[i].name = line.Split(";")[1];
+                datas[i].status = Convert.ToBoolean(line.Split(";")[2]);
+
+                datas[i].tallnessArr = new int[datas[i].snowmanNum];
+                for (int j = 0; j < datas[i].snowmanNum; j++)
+                {
+                    datas[i].tallnessArr[j] = Convert.ToInt32(line.Split(";")[j + 3]);
+                }
+            }
+
+            //Task 1
+            Console.WriteLine(task1(datas));
+            //Task 2
+            Console.WriteLine(task2(datas));
+            //Task 3
+            List<string> task3Names = task3Name(datas);
+            List<int> task3Heightest = task3Height(datas);
+            for(int i=0; i<task3Names.Count; i++)
+            {
+                if( i != task3Names.Count-1 )
+                    Console.Write(task3Names[i] + "-" + task3Heightest[i]+ ",");
+                else
+                    Console.Write(task3Names[i] + "-" + task3Heightest[i]);
+
+            }
+            //Task 4
+            List<string> task4 = task4Name(datas, height);
+            if(task4 == null) { Console.WriteLine("-"); return; }
+            for(int i=0;i < task4.Count; i++)
+            {
+                if( i ==  task4.Count-1 )
+                {
+                    Console.Write(task4[i]);
+                }
+                else
+                    Console.Write(task4[i] + ",");
+            }
+
+        }
+
+        //Task 1 - Maximum Selection
+        public static string task1(Data[] datas)
+        {
+            string rst = "";
+            int maxVal = datas[0].tallnessArr[0];
+
+            for (int i = 0; i < datas.Length; ++i)
+            {
+
+                for (int j = 0; j < datas[i].snowmanNum; ++j)
+                {
+
+                    if (datas[i].tallnessArr[j] > maxVal)
+                    {
+                        maxVal = datas[i].tallnessArr[j];
+                        rst = datas[i].name;
+                    }
+                }
+            }
+            return rst;
+        }
+
+        //Task 2 -- Counting
+        public static int task2(Data[] datas)
+        {
+            int cnt = 0;
+
+            for (int i = 0; i < datas.Length; ++i)
+            {
+                for (int j = 0; j < datas[i].snowmanNum; ++j)
+                {
+                    if (datas[i].tallnessArr[j] >= 150 && datas[i].tallnessArr[j] <= 210)
+                    {
+                        cnt++;
+                        break;
+                    }
+                }
+            }
+            return cnt;
+        }
+
+        //Task 3 - To get the names of the desired participants
+        public static List<string> task3Name(Data[] datas)
+        {
+            List<string> rst = new List<string>();
+            
+            for (int i = 0; i < datas.Length; ++i)
+            {
+                if (datas[i].snowmanNum >= 3 && datas[i].status == true)
+                {
+                    rst.Add(datas[i].name);
+                }
+            }
+            return rst;
+        }
+        // Task 3 - To get the heiest length of the desired participants
+        public static List<int> task3Height(Data[] datas)
+        {
+            List<int> rst = new List<int>();
+
+            for (int i = 0; i < datas.Length; ++i)
+            {
+                if (datas[i].snowmanNum >= 3 && datas[i].status == true)
+                {
+                    rst.Add(getMax(datas[i].tallnessArr));
+                }
+            }
+            return rst;
+        }
+        //This function will return the Maximum value from the Array
+        public static int getMax(int[] arr)
+        {
+            int maxVal = arr[0];
+
+            for(int i = 1; i < arr.Length; ++i)
+            {
+                if (arr[i] > maxVal)
+                    maxVal = arr[i];
+            }
+            return maxVal;
+        }
+        //Task 4 
+        public static List<string> task4Name(Data[] datas, int height)
+        {
+            List<string> rst = new List<string>();
+
+            for (int i = 0; i < datas.Length; ++i)
+            {
+                if (datas[i].name[0] == 'J' && isTalleThanH(datas[i].tallnessArr, height))
+                {
+                    rst.Add(datas[i].name);
+                }
+            }
+            return rst;
+        }
+        //Task 4 Helper function to check whether the participant built a Snowman taller than H 
+        public static bool isTalleThanH(int[] arr, int h)
+        {
+            bool rst = false;
+
+            for(int i = 0;i < arr.Length; ++i)
+            {
+                if (arr[i] > h)
+                {
+                    rst = true;
+                    break;
+                }
+            }
+            return rst;
+        } 
+
+    }
+}
