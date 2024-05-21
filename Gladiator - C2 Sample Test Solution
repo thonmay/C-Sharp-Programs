@@ -1,0 +1,155 @@
+namespace Gladiator_C2_Sample_Test
+{
+    internal class Program
+    {
+
+        public struct Data
+        {
+            public string name;
+            public int arrivalTime;
+            public string BcOrAd;
+            public int totalBattle;
+            public int totalBattleWon;
+        }
+
+        static void Main(string[] args)
+        {
+            /*<Thonmay Md Thoriqul Islam>, <ffr8a9>
+        This solution was prepared and submitted by the student stated above for the assignment
+        of the Programming course. I declare that this solution is my own work. I have not
+        copied or used third party solutions. I have not passed my solution to my classmates,
+        neither made it public.
+        Students’ regulation of Eötvös Loránd University (ELTE Regulations Vol. II. 74/C.§)
+        states that as long as a student presents another student’s work - or at least the
+        significant part of it - as his/her own performance, it will count as a disciplinary
+        fault. The most serious consequence of a disciplinary fault can be dismissal of the
+        student from the University.*/
+
+            string x = Console.ReadLine();
+            int gladiatorNum = Convert.ToInt32(x.Split(";")[0]);
+            int battleWon = Convert.ToInt32(x.Split(";")[1]);
+            
+            Data[] datas = new Data[gladiatorNum];
+            //Input reading
+            for(int i = 0; i < gladiatorNum; i++)
+            {
+                string line = Console.ReadLine();
+                datas[i].name = line.Split(";")[0];
+                datas[i].arrivalTime = Convert.ToInt32(line.Split(";")[1]);
+                datas[i].BcOrAd = line.Split(";")[2];
+                datas[i].totalBattle = Convert.ToInt32(line.Split(";")[3]);
+                datas[i].totalBattleWon = Convert.ToInt32(line.Split(";")[4]);
+            }
+
+            //Task 1
+            Console.WriteLine(task1(datas, battleWon));
+            //Task 2
+            List<string> task2Names = task2(datas);
+            for(int i=0; i<task2Names.Count; i++)
+            {
+                Console.WriteLine(task2Names[i]);
+            }
+            //Task 3
+            int[] task3CreateARr = creatingArr(datas);
+            int[] task3SortedArr = sortedArr(task3CreateARr);
+            Console.WriteLine(task3(task3SortedArr));
+
+            //Task 4
+            Console.WriteLine(task4(datas));
+
+        }
+        //Task 1 - Counting PoA
+        public static int task1(Data[] datas, int W)
+        {
+            int cnt = 0;
+
+            for(int i=0; i < datas.Length; ++i)
+            {
+                if (datas[i].totalBattleWon > W)
+                {
+                    cnt++;
+                }
+            }
+            return cnt;
+        }
+
+        //Task 2 -- MIS
+        public static List<string> task2(Data[] datas)
+        {
+            List<string> rst = new List<string>();
+
+            for(int i=0;i < datas.Length; ++i)
+            {
+                if (datas[i].BcOrAd == "BC" && datas[i].totalBattle > 14)
+                {
+                    rst.Add(datas[i].name);
+                }
+            }
+            return rst;
+        }
+
+        //Task 3
+        public static int task3(int[] arr)
+        {
+            int sum = 0;
+
+            for(int i=0; i < 3; ++i)
+                sum += arr[i];
+            return sum;
+        }
+
+        public static int[] creatingArr(Data[] datas)
+        {
+            int[] rst = new int[datas.Length];
+            for(int i=0; i < datas.Length; ++i)
+            {
+                rst[i] = datas[i].totalBattleWon;
+            }
+            return rst;
+        }
+
+        //Task 3 -Sorting 
+        public static int[] sortedArr(int[] arr)
+        {
+            int[] rst = new int[arr.Length];
+
+            for(int i=0; i < arr.Length; ++i)
+            {
+                for(int j= i +1; j < arr.Length; ++j)
+                {
+                    if (arr[i] < arr[j]) 
+                    {
+                        int temp = arr[i];
+                        arr[i] = arr[j];
+                        arr[j] = temp;
+                    }
+                }
+                rst[i] = arr[i];
+            }
+            return rst;
+        }
+
+        //Task 4
+        public static string task4(Data[] datas)
+        {
+            string rst = "";
+            int maxInd = 0;
+
+            for(int i=0; i < datas.Length; ++i)
+            {
+                if ( winRate(datas[i].totalBattle, datas[i].totalBattleWon) > winRate(datas[maxInd].totalBattle, datas[maxInd].totalBattleWon))
+                {
+                    maxInd = i;
+                    rst = datas[i].name;
+                }
+            }
+            return rst;
+        }
+        //Task 4 -Helper
+        public static double winRate(int total, int win)
+        {
+            return (win / total);
+        }
+
+    }
+}
